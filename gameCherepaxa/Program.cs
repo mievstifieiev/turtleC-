@@ -12,6 +12,8 @@ namespace gameCherepaxa
         static void Main(string[] args)
         {
             GraphicsWindow.KeyDown += GraphicsWindow_KeyDown;
+            GraphicsWindow.MouseDown += GraphicsWindow_MouseDown;
+            GraphicsWindow.MouseUp += GraphicsWindow_MouseUp;
             Turtle.PenUp();
             GraphicsWindow.BrushColor = "Red";
             var eat = Shapes.AddRectangle(10, 10);
@@ -25,7 +27,7 @@ namespace gameCherepaxa
             while (true)
             {
                 Turtle.Move(step);
-                if ((Turtle.X <= eatX + 10 )&& (Turtle.X >= eatX)&&(Turtle.Y <= eatY + 10)&&(Turtle.Y >= eatY))
+                if ((Turtle.X <= eatX + 15 )&& (Turtle.X >= eatX - 5)&&(Turtle.Y <= eatY + 15)&&(Turtle.Y >= eatY - 5))
                 {
                     GraphicsWindow.BrushColor = "White";
                     GraphicsWindow.DrawText(0, 0, "Очки: " + Convert.ToString(count));
@@ -33,16 +35,42 @@ namespace gameCherepaxa
                     eatY = rnd.Next(10, GraphicsWindow.Height);
                     Shapes.Move(eat, eatX, eatY);
                     count++;
-                    Turtle.Speed = Turtle.Speed + 0.01;
+                    Turtle.Speed = Turtle.Speed + 0.1;
                     step = step + 0.1;
                     GraphicsWindow.BrushColor = "Red";
                     GraphicsWindow.DrawText(0, 0, "Очки: " + Convert.ToString(count));
                 }
+                if (Turtle.X < 0)
+                {
+                    break;
+                }
+                else if (Turtle.X > GraphicsWindow.Width)
+                {
+                    break;
+                }
+                else if (Turtle.Y < 0)
+                {
+                    break;
+                }
+                else if (Turtle.Y > GraphicsWindow.Height)
+                {
+                    break;
+                }
                 //GraphicsWindow.DrawText(10, 10, "Очки: " + Convert.ToString(count));
             }
+            GraphicsWindow.ShowMessage("Ваши очки: " + Convert.ToString(count), "Игра окончена!");
         }
 
+        private static void GraphicsWindow_MouseUp()
+        {
+            Turtle.PenUp();
+            //throw new NotImplementedException();
+        }
 
+        private static void GraphicsWindow_MouseDown()
+        {
+            Turtle.PenDown();
+        }
 
         private static void GraphicsWindow_KeyDown()
         {
